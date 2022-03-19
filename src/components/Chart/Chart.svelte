@@ -6,24 +6,26 @@
 	import TimeBuckets from './TimeBuckets/TimeBuckets.svelte';
 	import AreaGradient from './Shapes/AreaGradient/AreaGradient.svelte';
 
-	import { getData, lineColor } from './utils/utils';
+	import { getData } from './utils/utils';
 	import data from './data/days.json';
 	import Tooltip from './Tooltip/Tooltip.svelte';
 	import type { TooltipData } from 'src/types/types';
-	import { stringify } from 'querystring';
+	import Area from './Shapes/Area/Area.svelte';
+	import Line from './Shapes/Line/Line.svelte';
+	import ExpandButton from './ExpandButton/ExpandButton.svelte';
+	import { getScale, getShapeGenerator } from './utils/plot';
 
 	let width: number;
+	let height = 160;
 	let activeTime = '1Y';
 
-	const margin = 0;
-	const height = 120;
 	const dates = data.map(({ date }) => new Date(date));
 
 	let tooltip: boolean = false;
-	let tooltipData = { date: '', value: 0 } as TooltipData;
+	let tooltipData: TooltipData = { date: '', value: 0 };
 
 	// define inital coords
-	let m = { x: 0, y: 0 };
+	let mouse = { x: 0, y: 0 };
 	var bisect = bisector((d) => d).right;
 
 	const handleMouseEnter = () => {
@@ -35,9 +37,9 @@
 	};
 
 	const handleMousemove = (event: MouseEvent) => {
-		m.x = event.offsetX;
-		m.y = event.offsetY;
-		let i = bisect(dates, xScale.invert(m.x));
+		mouse.x = event.offsetX;
+		mouse.y = event.offsetY;
+		let i = bisect(dates, xScale.invert(mouse.x));
 
 		if (i < data.length) {
 			point = data[i];
@@ -48,19 +50,10 @@
 	};
 
 	$: chartData = getData(data, activeTime);
-	$: xScale = scaleTime()
-		.domain(extent(chartData, (d) => new Date(d.date)))
-		.range([margin, width - margin]);
-	$: yScale = scaleLinear()
-		.domain([0, max(chartData, (d) => +d.value)])
-		.range([height - margin, margin]);
-	$: lineGenerator = line<{ date: string; value: number }>()
-		.x((d) => xScale(new Date(d.date)))
-		.y((d) => yScale(d.value));
-	$: areaGenerator = area<{ date: string; value: number }>()
-		.x((d) => xScale(new Date(d.date)))
-		.y0((d) => yScale(0))
-		.y1((d) => yScale(+d.value));
+	$: xScale = getScale(chartData, width, height).x;
+	$: yScale = getScale(chartData, width, height).y;
+	$: lineGenerator = getShapeGenerator(xScale, yScale).line;
+	$: areaGenerator = getShapeGenerator(xScale, yScale).area;
 	$: point = data[0];
 </script>
 
@@ -80,30 +73,17 @@
 				on:mouseenter={handleMouseEnter}
 			>
 				<AreaGradient />
-				<g>
-					<path
-						d={areaGenerator(chartData)}
-						stroke-width={1}
-						stroke-linecap="round"
-						fill="url(#area-gradient)"
-						class=""
-					/>
-					<path
-						d={lineGenerator(chartData)}
-						stroke-width={1}
-						stroke-linecap="round"
-						fill="none"
-						stroke={lineColor}
-					/>
-				</g></svg
-			>
+				<Area {areaGenerator} {chartData} />
+				<Line {lineGenerator} {chartData} />
+			</svg>
 		{/if}
 		<Tooltip left={xScale(new Date(point.date))} {tooltip} {tooltipData} />
-		<div>
+		<div class="flex items-center justify-between">
 			<div class="flex items-center gap-x-2 py-1">
 				<div class="h-2 w-2 rounded-sm bg-orange-300" />
 				<p class="text-xs">Github Contributions</p>
 			</div>
+			<ExpandButton bind:height />
 		</div>
 	</div>
 </div>

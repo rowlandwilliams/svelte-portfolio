@@ -10,3 +10,8 @@ export interface TooltipData {
 	date: string;
 	value: number;
 }
+
+export interface ChartPoint {
+	date: string;
+	value: number;
+}

@@ -1,21 +1,18 @@
 <script lang="ts">
-	import classNames from 'classnames';
 	import type { TooltipData } from 'src/types/types';
 
 	export let left = 200;
 	export let tooltip: boolean;
-	export let tooltipData = {} as TooltipData;
+	export let tooltipData: TooltipData = { date: '', value: 0 };
 
 	$: ({ date, value } = tooltipData);
 </script>
 
-{#if tooltipData}
+{#if date}
 	<div
-		class={classNames('absolute -translate-y-full shadow-xl  text-xs bg-white pointer-events-none', {
-			hidden: !tooltip,
-			block: tooltip
-		})}
+		class="pointer-events-none absolute -translate-y-full  whitespace-nowrap bg-white text-xs shadow-xl"
 		style="left: {left}px"
+		hidden={!tooltip}
 	>
 		<h1 class="border-b p-2">{date}</h1>
 		<p class="p-2">{value} contributions</p>
