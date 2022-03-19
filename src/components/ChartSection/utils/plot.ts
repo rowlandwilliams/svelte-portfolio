@@ -1,4 +1,4 @@
-import type { ChartPoint } from './../../../types/types';
+import type { ChartPoint } from '../../../types/types';
 import { extent, max } from 'd3-array';
 import { scaleLinear, scaleTime, type ScaleLinear, type ScaleTime } from 'd3-scale';
 import { area, line } from 'd3-shape';

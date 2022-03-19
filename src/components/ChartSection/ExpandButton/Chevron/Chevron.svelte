@@ -5,7 +5,7 @@
 </script>
 
 <svg
-	class={classNames('ml-2 -mr-1 h-5 w-5 transition-all duration-75 opacity-50', {
+	class={classNames('h-5 w-5 transition-all duration-75 opacity-50', {
 		'rotate-180': clicked
 	})}
 	xmlns="http://www.w3.org/2000/svg"

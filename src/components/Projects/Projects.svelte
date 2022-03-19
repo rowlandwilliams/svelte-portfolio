@@ -21,10 +21,10 @@
 	});
 </script>
 
-<div class="grid grid-cols-2">
+<div class="grid grid-cols-3 py-4">
 	{#if projects}
 		{#each projects as project}
-			<h1 class="max-w-max rounded-sm border border-indigo-400 px-2 text-sm text-indigo-400">
+			<h1 class="max-w-max rounded-sm b  px-2 text-sm  font-medium text-gray-700">
 				{project.name}
 			</h1>
 		{/each}

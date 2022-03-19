@@ -1,7 +1,7 @@
 <script>
 	import { line } from 'd3-shape';
 
-	import { lineColor } from '../../utils/utils';
+	import { lineColor } from '../../../utils/utils';
 </script>
 
 <defs>
