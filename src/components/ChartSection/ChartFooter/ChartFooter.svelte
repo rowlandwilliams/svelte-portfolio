@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ExpandButton from '../ExpandButton/ExpandButton.svelte';
+	import ExpandButton from './ExpandButton/ExpandButton.svelte';
 
 	export let height: number;
 </script>

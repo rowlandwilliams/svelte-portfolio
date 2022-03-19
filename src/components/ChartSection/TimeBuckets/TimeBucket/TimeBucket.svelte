@@ -8,7 +8,7 @@
 <button
 	on:click
 	class={classNames('px-2 py-0.5 rounded-sm ', {
-		'bg-rose-500 text-white font-medium': time === activeTime,
+		'bg-indigo-500 text-white font-medium': time === activeTime,
 		'hover:bg-indigo-50': time !== activeTime
 	})}
 >
