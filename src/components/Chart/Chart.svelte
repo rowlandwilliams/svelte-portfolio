@@ -1,38 +1,50 @@
 <script lang="ts">
 	import { scaleTime, scaleLinear } from 'd3-scale';
-	import { extent, max, min } from 'd3-array';
+	import { extent, max, bisector } from 'd3-array';
 	import { area, line } from 'd3-shape';
 
-	import data from './data/days.json';
+	import TimeBuckets from './TimeBuckets/TimeBuckets.svelte';
 	import AreaGradient from './Shapes/AreaGradient/AreaGradient.svelte';
 
-	import { convertRawContributionData, lineColor } from './utils/utils';
-
-	import contributions from './data/contributions2022.json';
-	import TimeBuckets from './TimeBuckets/TimeBuckets.svelte';
+	import { getData, lineColor } from './utils/utils';
+	import data from './data/days.json';
+	import Tooltip from './Tooltip/Tooltip.svelte';
+	import type { TooltipData } from 'src/types/types';
+	import { stringify } from 'querystring';
 
 	let width: number;
-	const margin = 0;
-	const height = 120;
-	const topChartHeight = 120;
-
 	let activeTime = '1Y';
 
-	const getData = (
-		data: {
-			date: string;
-			value: number;
-		}[],
-		activeTime: string
-	) => {
-		if (activeTime === '1W') return data.slice(data.length - 7);
-		if (activeTime === '2W') return data.slice(data.length - 14);
-		if (activeTime === '1M') return data.slice(data.length - 31);
-		if (activeTime === '6M') return data.slice(data.length - 31 * 6);
-		if (activeTime === '2022') return data.filter(({ date }) => date.substring(0, 4) === '2022');
-		if (activeTime === '2021') return data.filter(({ date }) => date.substring(0, 4) === '2021');
+	const margin = 0;
+	const height = 120;
+	const dates = data.map(({ date }) => new Date(date));
 
-		return data;
+	let tooltip: boolean = false;
+	let tooltipData = { date: '', value: 0 } as TooltipData;
+
+	// define inital coords
+	let m = { x: 0, y: 0 };
+	var bisect = bisector((d) => d).right;
+
+	const handleMouseEnter = () => {
+		tooltip = true;
+	};
+
+	const handleMouseLeave = () => {
+		tooltip = false;
+	};
+
+	const handleMousemove = (event: MouseEvent) => {
+		m.x = event.offsetX;
+		m.y = event.offsetY;
+		let i = bisect(dates, xScale.invert(m.x));
+
+		if (i < data.length) {
+			point = data[i];
+		}
+
+		tooltipData.date = data[i].date;
+		tooltipData.value = data[i].value;
 	};
 
 	$: chartData = getData(data, activeTime);
@@ -49,6 +61,7 @@
 		.x((d) => xScale(new Date(d.date)))
 		.y0((d) => yScale(0))
 		.y1((d) => yScale(+d.value));
+	$: point = data[0];
 </script>
 
 <div class=" flex w-full flex-col gap-y-8 rounded  py-2 ">
@@ -57,9 +70,15 @@
 		<TimeBuckets bind:activeTime />
 	</div>
 
-	<div bind:clientWidth={width}>
+	<div bind:clientWidth={width} class="relative">
 		{#if width}
-			<svg {width} {height}>
+			<svg
+				{width}
+				{height}
+				on:mousemove={handleMousemove}
+				on:mouseleave={handleMouseLeave}
+				on:mouseenter={handleMouseEnter}
+			>
 				<AreaGradient />
 				<g>
 					<path
@@ -79,6 +98,7 @@
 				</g></svg
 			>
 		{/if}
+		<Tooltip left={xScale(new Date(point.date))} {tooltip} {tooltipData} />
 		<div>
 			<div class="flex items-center gap-x-2 py-1">
 				<div class="h-2 w-2 rounded-sm bg-orange-300" />

@@ -33,3 +33,20 @@ export const convertRawContributionData = (
 
 	return processedContributions;
 };
+
+export const getData = (
+	data: {
+		date: string;
+		value: number;
+	}[],
+	activeTime: string
+) => {
+	if (activeTime === '1W') return data.slice(data.length - 7);
+	if (activeTime === '2W') return data.slice(data.length - 14);
+	if (activeTime === '1M') return data.slice(data.length - 31);
+	if (activeTime === '6M') return data.slice(data.length - 31 * 6);
+	if (activeTime === '2022') return data.filter(({ date }) => date.substring(0, 4) === '2022');
+	if (activeTime === '2021') return data.filter(({ date }) => date.substring(0, 4) === '2021');
+
+	return data;
+};

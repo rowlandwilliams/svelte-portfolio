@@ -5,3 +5,8 @@ export interface Project {
 }
 
 export type Projects = Project[];
+
+export interface TooltipData {
+	date: string;
+	value: number;
+}
