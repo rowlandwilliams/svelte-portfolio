@@ -4,5 +4,5 @@
 
 <div class="mb-8 flex items-center gap-x-2">
 	<RwIcon />
-	<h1 class="font-medium text-gray-900">Rowland Williams</h1>
+	<h1 class="text-sm">Rowland Williams</h1>
 </div>
