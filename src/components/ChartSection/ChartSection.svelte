@@ -15,7 +15,14 @@
 	let height = 100;
 	let activeTime = '1Y';
 
-	const dates = days.map(({ date }) => new Date(date));
+	$: daysData = getActiveDayData(days, activeTime);
+	$: weeksData = getActiveWeekData(weeks, activeTime);
+
+	$: xScale = getScale(daysData, width, height).x;
+	$: yScale = getScale(weeksData, width, height).y;
+	$: point = days[0];
+	$: dates = daysData ? daysData.map(({ date }) => new Date(date)) : null;
+
 	const bisect = bisector((d) => d).center;
 
 	let hovered = false;
@@ -37,20 +44,13 @@
 		mouse.y = event.offsetY;
 		let i = bisect(dates, xScale.invert(mouse.x));
 
-		if (i < days.length) {
-			point = days[i];
+		if (i < daysData.length) {
+			point = daysData[i];
 		}
 
-		tooltipData.date = days[i].date;
+		tooltipData.date = daysData[i].date;
 		tooltipData.value = daysData[i].value;
 	};
-
-	$: daysData = getActiveDayData(days, activeTime);
-	$: weeksData = getActiveWeekData(weeks, activeTime);
-
-	$: xScale = getScale(daysData, width, height).x;
-	$: yScale = getScale(weeksData, width, height).y;
-	$: point = days[0];
 </script>
 
 <div class=" flex w-full flex-col gap-y-8 rounded  border-b border-gray-100 py-2 ">
@@ -73,7 +73,7 @@
 		<Tooltip
 			left={xScale(new Date(point.date))}
 			top={yScale(point.value)}
-			bind:hovered
+			{hovered}
 			{tooltipData}
 		/>
 		<ChartFooter bind:height />

@@ -29,6 +29,8 @@
 		{ timeframe: 'weeks', data: weeksData },
 		{ timeframe: 'days', data: daysData }
 	];
+
+	console.log(daysData);
 </script>
 
 {#if width}
