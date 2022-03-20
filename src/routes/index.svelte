@@ -1,11 +1,9 @@
 <script lang="ts">
-	import Projects from '../components/Projects/Projects.svelte';
 	import ChartSection from '../components/ChartSection/ChartSection.svelte';
-
-	import type { ProjectsResponse } from 'src/types/types';
-
-	import { onMount } from 'svelte';
+	import Projects from '../components/Projects/Projects.svelte';
 	import { querySanityApi } from '../components/Projects/utils/utils';
+	import type { ProjectsResponse } from 'src/types/types';
+	import { onMount } from 'svelte';
 
 	let projects: ProjectsResponse;
 	const query = `

@@ -9,5 +9,8 @@ module.exports = {
 			}
 		}
 	},
-	plugins: [require('@tailwindcss/forms')]
+	purge: {
+		content: ['./src/**/*.html'],
+		safelist: ['peer-checked:bg-yellow-400', 'peer-checked:bg-red-400']
+	}
 };

@@ -80,7 +80,6 @@ export const getActiveDayData = (
 	if (activeTime === '2W') return data.slice(data.length - 14);
 	if (activeTime === '1M') return data.slice(data.length - 31);
 	if (activeTime === '6M') return data.slice(data.length - 31 * 6);
-	
 
 	return data.slice(data.length - 365);
 };

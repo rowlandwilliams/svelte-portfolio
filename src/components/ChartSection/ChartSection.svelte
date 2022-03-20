@@ -22,6 +22,7 @@
 	$: xScale = getScale(daysData, width, height).x;
 	// if weeks is active make y scale from weeks data if not use daysdata
 	$: yScale = getScale($chartLayers.weeks ? weeksData : daysData, width, height).y;
+
 	$: point = days[0];
 	$: dates = daysData ? daysData.map(({ date }) => new Date(date)) : null;
 

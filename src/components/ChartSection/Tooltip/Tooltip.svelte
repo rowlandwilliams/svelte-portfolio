@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { TooltipData } from 'src/types/types';
+
 	const padding = 10;
 
 	export let left = 200;
