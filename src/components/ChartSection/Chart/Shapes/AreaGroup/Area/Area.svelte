@@ -4,11 +4,12 @@
 
 	export let areaGenerator: Area<ChartPoint>;
 	export let chartData: ChartPoint[];
+	export let timeframe: string;
 </script>
 
 <path
 	d={areaGenerator(chartData)}
 	stroke-width={1}
 	stroke-linecap="round"
-	fill="url(#area-gradient)"
+	fill="url(#area-gradient-{timeframe})"
 />

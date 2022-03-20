@@ -1,7 +1,7 @@
 <script lang="ts">
 	import TimeBucket from './TimeBucket/TimeBucket.svelte';
 
-	const times: string[] = ['1W', '2W', '1M', '6M', '1Y', '2021', '2022'];
+	const times: string[] = ['1M', '6M', '1Y'];
 
 	export let activeTime: string;
 

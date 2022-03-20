@@ -5,12 +5,11 @@ import preprocess from 'svelte-preprocess';
 const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
 	// for more information about preprocessors
-	preprocess: preprocess({ defaults: { script: 'typescript' } }),
+	preprocess: preprocess(),
 
 	kit: {
 		adapter: adapter()
-	},
-	script: 'typescript'
+	}
 };
 
 export default config;

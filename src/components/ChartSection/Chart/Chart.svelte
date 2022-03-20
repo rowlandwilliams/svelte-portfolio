@@ -1,31 +1,34 @@
 <script lang="ts">
-	import type { ScaleLinear, ScaleTime } from 'd3-scale';
-	import type { ChartPoint, ProjectsResponse } from 'src/types/types';
 	import { getShapeGenerator } from '../utils/plot';
-	import Area from './Shapes/Area/Area.svelte';
-
 	import AreaGradient from './Shapes/AreaGradient/AreaGradient.svelte';
-	import Line from './Shapes/Line/Line.svelte';
+	import AreaGroup from './Shapes/AreaGroup/AreaGroup.svelte';
 	import Focus from './Shapes/Focus/Focus.svelte';
 	import { getProjectLinePosition } from './utils/utils';
+	import type { ScaleLinear, ScaleTime } from 'd3-scale';
+	import type { ChartPoint, ProjectsResponse } from 'src/types/types';
 
 	export let width: number;
 	export let height: number;
 	export let hovered: boolean;
 	export let xScale: ScaleTime<number, number, never>;
 	export let yScale: ScaleLinear<number, number, never>;
-	export let chartData: ChartPoint[];
-	export let point: ChartPoint = chartData[0];
+	export let daysData: ChartPoint[];
+	export let weeksData: ChartPoint[];
+	export let point: ChartPoint = daysData[0];
 	export let projects: ProjectsResponse;
 	export let handleMousemove: (event: MouseEvent) => void;
 	export let handleMouseLeave: () => void;
 	export let handleMouseEnter: () => void;
 
-	const padding = 0;
-	$: projectLineSectionHeight = projects ? (height - padding) / projects.length : null;
+	$: projectLineSectionHeight = projects ? height / projects.length : null;
 	$: lineGenerator = getShapeGenerator(xScale, yScale).line;
 	$: areaGenerator = getShapeGenerator(xScale, yScale).area;
 	$: ({ date, value } = point);
+
+	const timeframes = [
+		{ timeframe: 'weeks', data: weeksData },
+		{ timeframe: 'days', data: daysData }
+	];
 </script>
 
 {#if width}
@@ -37,8 +40,12 @@
 		on:mouseenter={() => handleMouseEnter()}
 	>
 		<AreaGradient />
+		{#each timeframes as timeframe}
+			<AreaGroup {areaGenerator} {lineGenerator} {...timeframe} />
+		{/each}
+
 		{#if projects}
-			<g transform="translate(0,{padding / 2})">
+			<g>
 				{#each projects as project, i}
 					<line
 						x1={xScale(new Date(project.startDate))}
@@ -51,8 +58,6 @@
 				{/each}
 			</g>
 		{/if}
-		<Area {areaGenerator} {chartData} />
-		<Line {lineGenerator} {chartData} />
 		<Focus left={xScale(new Date(date))} top={yScale(value)} {height} {hovered} />
 	</svg>
 {/if}
