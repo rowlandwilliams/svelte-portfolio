@@ -3,7 +3,7 @@
 	import AreaGradient from './Shapes/AreaGradient/AreaGradient.svelte';
 	import AreaGroup from './Shapes/AreaGroup/AreaGroup.svelte';
 	import Focus from './Shapes/Focus/Focus.svelte';
-	import { getProjectLinePosition } from './utils/utils';
+	import { debounce, getProjectLinePosition } from './utils/utils';
 	import type { ScaleLinear, ScaleTime } from 'd3-scale';
 	import type { ChartPoint, ProjectsResponse } from 'src/types/types';
 
@@ -29,15 +29,13 @@
 		{ timeframe: 'weeks', data: weeksData },
 		{ timeframe: 'days', data: daysData }
 	];
-
-	console.log(daysData);
 </script>
 
 {#if width}
 	<svg
 		{width}
 		{height}
-		on:mousemove={handleMousemove}
+		on:mousemove={debounce(handleMousemove)}
 		on:mouseleave={() => handleMouseLeave()}
 		on:mouseenter={() => handleMouseEnter()}
 	>
