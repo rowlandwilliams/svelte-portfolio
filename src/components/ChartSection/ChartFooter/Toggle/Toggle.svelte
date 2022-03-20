@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { chartLayers } from '../../../../stores';
+	import { chartLayers } from 'src/stores';
 
 	export let timeframe: string;
 	export let toggleColor: string;

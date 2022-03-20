@@ -9,8 +9,10 @@ module.exports = {
 			}
 		}
 	},
+	plugins: [require('@tailwindcss/forms')],
+	mode: 'jit',
 	purge: {
-		content: ['./src/**/*.html'],
+		content: ['./src/**/*.{svelte,html}'],
 		safelist: ['peer-checked:bg-yellow-400', 'peer-checked:bg-red-400']
 	}
 };
