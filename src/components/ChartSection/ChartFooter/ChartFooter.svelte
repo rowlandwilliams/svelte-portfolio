@@ -1,7 +1,7 @@
 <script lang="ts">
+	import timeframes from '../data/timeframes.json';
 	import ExpandButton from './ExpandButton/ExpandButton.svelte';
 	import Toggle from './Toggle/Toggle.svelte';
-	import timeframes from '../data/timeframes.json';
 
 	export let height: number;
 </script>

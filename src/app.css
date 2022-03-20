@@ -9,7 +9,7 @@
 /*  */
 /* input:checked + .toggle-bg:after {
 	transform: translateX(100%);
-} */ 
+} */
 /* 
 input:checked + .toggle-bg {
 	@apply border-blue-600 bg-blue-600;
