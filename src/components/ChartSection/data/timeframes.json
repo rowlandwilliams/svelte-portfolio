@@ -1,0 +1,4 @@
+[
+	{ "timeframe": "Daily", "toggleColor": "peer-checked:bg-yellow-400", "layer": "days" },
+	{ "timeframe": "Weekly", "toggleColor": "peer-checked:bg-red-400", "layer": "weeks" }
+]
