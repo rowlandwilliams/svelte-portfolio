@@ -1,11 +1,10 @@
 <script lang="ts">
-	import classNames from 'classnames';
-	import type { Area as AreaGenerator, Line as LineGenerator } from 'd3-shape';
 	import { chartLayers } from '../../../../../stores';
-	import type { ChartPoint } from 'src/types/types';
-
 	import Area from './Area/Area.svelte';
 	import Line from './Line/Line.svelte';
+	import classNames from 'classnames';
+	import type { Area as AreaGenerator, Line as LineGenerator } from 'd3-shape';
+	import type { ChartPoint } from 'src/types/types';
 
 	export let areaGenerator: AreaGenerator<ChartPoint>;
 	export let lineGenerator: LineGenerator<ChartPoint>;

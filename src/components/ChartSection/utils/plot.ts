@@ -3,9 +3,12 @@ import { extent, max } from 'd3-array';
 import { scaleLinear, scaleTime, type ScaleLinear, type ScaleTime } from 'd3-scale';
 import { area, line } from 'd3-shape';
 
+
 const margin = 10;
 
 export const getScale = (chartData: ChartPoint[], width: number, height: number) => {
+
+
 	return {
 		x: scaleTime()
 			.domain(extent(chartData, (d) => new Date(d.date)))
