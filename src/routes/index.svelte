@@ -24,7 +24,7 @@
 </script>
 
 <div class="mb-8 flex items-center gap-x-2">
-	<img src="/rw.svg" alt="rw" class="h-5 w-5" />
+	<img src="./rw.svg" alt="rw" class="h-5 w-5" />
 	<h1 class="font-medium text-gray-900">Rowland Williams</h1>
 </div>
 <ChartSection {projects} />
